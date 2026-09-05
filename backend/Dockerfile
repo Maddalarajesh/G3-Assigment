@@ -1,4 +1,4 @@
-FROM node:22-alphine t as a base image
+FROM node:22-alphine  as a builder
 WORKDIR /app
 RUN npm install --legacy-peer-deps
 RUN npm run build
