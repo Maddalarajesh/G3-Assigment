@@ -2,14 +2,12 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Git Checkout') {
             steps {
                 // Get some code from a GitHub repository
-                git clone 'https://github.com/Maddalarajesh/G3-Assigment'
+                git 'https://github.com/Maddalarajesh/G3-Assigment'
 
-               
             }
-
            
         }
         stage ('install dependencies') {
