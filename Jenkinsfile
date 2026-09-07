@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Get some code from a GitHub repository
-                git clone --single-branch --branch main 'https://github.com/Maddalarajesh/G3-Assigment'
+                git clone 'https://github.com/Maddalarajesh/G3-Assigment'
 
                
             }
