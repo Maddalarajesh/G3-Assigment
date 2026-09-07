@@ -15,6 +15,17 @@ pipeline {
                 sh 'npm install --legacy-peer-deps'
             }
         }
+        stage ('test npm'){
+           steps {
+               sh 'npm test'
+           }
+        }
+        stage ('lint test') {
+            steps {
+                sh 'npm lint'
+            }
+        }
+        
             
         
     }
