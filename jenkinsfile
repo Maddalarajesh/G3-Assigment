@@ -1,9 +1,23 @@
 pipeline {
-    Agentany
-        stages {
-           stage ('Git checkout') {
+    agent any
+
+    stages {
+        stage('Build') {
             steps {
-                git branch 
-         }
-     }
-     stage
+                // Get some code from a GitHub repository
+                git clone --single-branch --branch main 'https://github.com/Maddalarajesh/G3-Assigment'
+
+               
+            }
+
+           
+        }
+        stage ('install dependencies') {
+            steps {
+                sh 'npm install --legacy-peer-deps'
+            }
+        }
+            
+        
+    }
+}
