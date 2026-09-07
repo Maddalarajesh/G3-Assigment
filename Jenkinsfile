@@ -17,12 +17,12 @@ pipeline {
         }
         stage ('test npm'){
            steps {
-               sh 'npm test'
+               sh 'pnpm test'
            }
         }
         stage ('lint test') {
             steps {
-                sh 'npm lint'
+                sh 'pnpm lint'
             }
         }
         
