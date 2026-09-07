@@ -1,0 +1,9 @@
+pipeline {
+    Agentany
+        stages {
+           stage ('Git checkout') {
+            steps {
+                git branch 
+         }
+     }
+     stage
