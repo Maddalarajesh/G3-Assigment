@@ -29,8 +29,8 @@ jobs:
           docker build \
             --platform linux/amd64 \
             -f backend/Dockerfile \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }}:${{ github.sha }} \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }}:latest \
+            -t ${{ secrets.DOCKER_USERNAME }}/${{ env.BACKEND_IMAGE }}:${{ github.sha }} \
+            -t ${{ secrets.DOCKER_USERNAME }}/${{ env.BACKEND_IMAGE }}:latest \
             ./backend
     - name: Build frontend docker image
       run: |
