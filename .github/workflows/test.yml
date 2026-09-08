@@ -34,7 +34,7 @@ jobs:
             -t ${{ secrets.DOCKER_USERNAME }}/${{ env.FRONTEND_IMAGE }}:${{ github.sha }} \
             ./frontend  
       - name: Scan backend image
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@0.36.0
         with:
           image-ref: ${{ secrets.DOCKER_USERNAME }}/${{ env.BACKEND_IMAGE }}:${{ github.sha }}
           format: table
@@ -42,7 +42,7 @@ jobs:
           ignore-unfixed: true
           severity: CRITICAL  
       - name: Scan frontend image
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@0.36.0
         with:
           image-ref: ${{ secrets.DOCKER_USERNAME }}/${{ env.FRONTEND_IMAGE }}:${{ github.sha }}
           format: table
