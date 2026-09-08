@@ -1,55 +1,76 @@
-name: Build and push docker images to dockerhub
+
+name: Build and Push Docker Images
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+
   workflow_dispatch:
-permissions: 
-     contents: read
+
+permissions:
+  contents: read
+
 env:
   BACKEND_IMAGE: g3-assignment-backend
   FRONTEND_IMAGE: g3-assignment-frontend
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
+
     steps:
-    - name: checkout
-      uses : actions/checkout@v4
-    - name: docker hub login
-      uses : docker/login-action@v3
-      with:
-         username: ${{secrets.DOCKER_USERNAME}}
-         password: ${{secrets.DOCKER_PASSWORD}}
-         
-    - name: setup docker buildx
-      uses: docker/setup-buildx-action@v3
-    - name: Build backend docker image
-      run: |
-          docker build \
-            --platform linux/amd64 \
-            -f backend/Dockerfile \
-            -t ${{ secrets.DOCKER_USERNAME }}/${{ env.BACKEND_IMAGE }}:${{ github.sha }} \
-            -t ${{ secrets.DOCKER_USERNAME }}/${{ env.BACKEND_IMAGE }}:latest \
-            ./backend
-    - name: Build frontend docker image
-      run: |
-          docker build \
-            --platform linux/amd64 \
-            -f frontend/Dockerfile \
-            -t ${{  secrets.DOCKER_USERNAME  }}/${{ env.FRONTEND_IMAGE }}:${{ GITHUB.SHA }} \
-            -t ${{ secrets.DOCKER_USERNAME }}/${{ env.FRONTEND_IMAGE }}:latest \
-            ./frontend
-    - name: push frontend dockerimage to dockerhub
-      run: | 
-         docker push \
-            ${{  secrets.DOCKER_USERNAME  }}/${{ env.FRONTEND_IMAGE }}:${{ GITHUB.SHA }}
-         docker push \   
-            ${{ secrets.DOCKER_USERNAME }}/${{ env.FRONTEND_IMAGE }}:latest 
-    - name: push backend dockerimage to dockerhub
-      run: | 
-         docker push \
-            ${{  secrets.DOCKER_USERNAME  }}/${{ env.BACKEND_IMAGE }}:${{ GITHUB.SHA }}
-         docker push \   
-            ${{ secrets.DOCKER_USERNAME }}/${{ env.BACKEND_IMAGE }}:latest
-     
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Get short commit hash
+        id: vars
+        run: |
+          echo "sha_short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      
+      - name: Build Docker Compose services
+        run: |
+          docker compose build api frontend
+      - name: Tag backend image
+        run: |
+          docker tag \
+            g3-assignment-api \
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }}:${{ steps.vars.outputs.sha_short }}
+
+          docker tag \
+            g3-assignment-api \
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }}:latest
+      - name: Tag frontend image
+        run: |
+          docker tag \
+            g3-assignment-frontend \
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE }}:${{ steps.vars.outputs.sha_short }}
+
+          docker tag \
+            g3-assignment-frontend \
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE }}:latest
+      - name: Push backend image
+        run: |
+          docker push \
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }}:${{ steps.vars.outputs.sha_short }}
+
+          docker push \
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }}:latest
+      - name: Push frontend image
+        run: |
+          docker push \
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE }}:${{ steps.vars.outputs.sha_short }}
+
+          docker push \
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE }}:latest
+```
