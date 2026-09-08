@@ -1,6 +1,7 @@
 FROM node:22-slim As builder
 WORKDIR /app
 COPY . .
+RUN apt-get update -y && apt-get install -y openssl
 RUN npm install --legacy-peer-deps
 RUN npm run build
 #Stage-2
