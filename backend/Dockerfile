@@ -1,10 +1,10 @@
-FROM node:22-alphine  as a builder
+FROM node:22-alhine As a builder
 WORKDIR /app
 RUN npm install --legacy-peer-deps
 RUN npm run build
 COPY . .
 #Stage-2
-FROM node:22-alphine as a production
+FROM node:22-alpine as a production
 WORKDIR /app
 RUN groupadd -S non-root && \
     useradd -S non-user -G non-root
