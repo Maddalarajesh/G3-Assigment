@@ -73,3 +73,9 @@ jobs:
 
           docker push \
             ${{ secrets.DOCKER_USERNAME }}/${{ env.FRONTEND_IMAGE }}:latest
+      - name:  Deploy backend images to render
+        run: |
+           curl -X POST "${{ secrets.RENDER_BACKEND_DEPLOY_HOOK }}"
+      - name: Deploy frontend images to render
+        run: |
+           curl -X POST "${{ secrets.RENDER_FRONTEND_DEPLOY_HOOK }}"
