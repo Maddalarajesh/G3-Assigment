@@ -6,6 +6,9 @@ on:
   workflow_dispatch:
 permissions: 
      contents: read
+env:
+  BACKEND_IMAGE: g3-assignment-backend
+  FRONTEND_IMAGE: g3-assignment-frontend
 
 jobs:
   build:
@@ -18,5 +21,25 @@ jobs:
       with:
          username: ${{secrets.DOCKER_USERNAME}}
          password: ${{secrets.DOCKER_PASSWORD}}
+         
+    - name: setup docker buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Build backend docker image
+      run: |
+          docker build \
+            --platform linux/amd64 \
+            -f backend/Dockerfile \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }}:${{ github.sha }} \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }}:latest \
+            ./backend
+    - name: Build frontend docker image
+      run: |
+          docker build \
+            --platform linux/amd64 \
+            -f frontend/Dockerfile \
+            -t ${{  secrets.DOCKER_USERNAME  }}/${{ env.FRONTEND_IMAGE }}:${{ GITHUB.SHA }} \
+            -T ${{ secrets.DOCKER_USERNMAE }}/${{ env.FRONTEND_IMAGE }}:latest \
+            ./frontend
+      
     
      
