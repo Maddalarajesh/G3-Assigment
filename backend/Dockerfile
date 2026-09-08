@@ -6,8 +6,7 @@ COPY . .
 #Stage-2
 FROM node:22-alpine as production
 WORKDIR /app
-RUN groupadd -S non-root && \
-    useradd -S non-user -G non-root
+RUN addgroup -S non-root && adduser -S non-user -G non-root
 COPY --from=builder --chown=non-user:non-root && \
     /app/node_modules ./node_modules
 COPY --from=builder --chown=non-user:non-root && \
