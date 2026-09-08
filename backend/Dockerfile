@@ -1,4 +1,4 @@
-FROM node:22-alhine As a builder
+FROM node:22-alpine As a builder
 WORKDIR /app
 RUN npm install --legacy-peer-deps
 RUN npm run build
