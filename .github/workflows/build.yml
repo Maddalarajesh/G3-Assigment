@@ -40,7 +40,7 @@ jobs:
       
       - name: Build Docker Compose services
         run: |
-          docker compose build api frontend
+          docker compose -f Docker-compose.yaml build api frontend
       - name: Tag backend image
         run: |
           docker tag \
