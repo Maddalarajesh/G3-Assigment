@@ -5,8 +5,7 @@ RUN npm run build
 COPY . .
 #stage-2
 FROM Node:22-alpine As production
-RUN addgroup -S testfrontend && \
-    adduser -S frontgroup -G testfrontend
+RUN addgroup -S testfrontend && adduser -S frontgroup -G testfrontend
 RUN rm /var/nginx/conf.d/default.conf  
 COPY nginx.conf /var/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
