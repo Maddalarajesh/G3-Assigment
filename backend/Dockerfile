@@ -3,6 +3,7 @@ WORKDIR /app
 COPY . .
 RUN apt-get update -y && apt-get install -y openssl
 RUN npm install --legacy-peer-deps
+RUN npx prisma generate
 RUN npm run build
 #Stage-2
 FROM node:22-slim as production
