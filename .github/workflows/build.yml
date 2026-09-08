@@ -44,11 +44,11 @@ jobs:
       - name: Tag backend image
         run: |
           docker tag \
-            g3-assignment-api \
+            g3-assignment-backend \
             ${{ secrets.DOCKER_USERNAME }}/${{ env.BACKEND_IMAGE }}:${{ steps.vars.outputs.sha_short }}
 
           docker tag \
-            g3-assignment-api \
+            g3-assignment-backend \
             ${{ secrets.DOCKER_USERNAME }}/${{ env.BACKEND_IMAGE }}:latest
       - name: Tag frontend image
         run: |
