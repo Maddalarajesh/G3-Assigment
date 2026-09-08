@@ -19,5 +19,34 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
       - run: pnpm run test
-      - run: pnpm run build
+      - name: setup docker buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build backend images
+        run: | 
+            docker build \
+            -f backend/Dockerfile \
+            -t ${{ secrets.DOCKER_USERNAME }}/${{ env.BACKEND_IMAGE }}:${{ github.sha }} \
+            ./backend
+      - name: Build frontend images
+        run: | 
+            docker build \
+            -f frontend/Dockerfile \
+            -t ${{ secrets.DOCKER_USERNAME }}/${{ env.FRONTEND_IMAGE }}:${{ github.sha }} \
+            ./frontend  
+      - name: Scan backend image
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }}:${{ github.sha }}
+          format: table
+          exit-code: 1
+          ignore-unfixed: true
+          severity: CRITICAL  
+      - name: Scan frontend image
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE }}:${{ github.sha }}
+          format: table
+          exit-code: 1
+          ignore-unfixed: true
+          severity: CRITICAL   
 
