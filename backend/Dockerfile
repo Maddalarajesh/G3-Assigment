@@ -13,4 +13,4 @@ COPY --from=builder --chown=non-user:non-root /app/package.json ./package.json
 COPY --from=builder --chown=non-user:non-root /app/dist ./app
 EXPOSE 3000
 USER non-user
-CMD ["node","dist/server.js"]    
+CMD ["node","dist/index.js"]    
