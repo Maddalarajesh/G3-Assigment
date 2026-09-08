@@ -1,10 +1,10 @@
-FROM node:alphine As a builder
+FROM node:22-alpine As a builder
 WORKDIR /app
 RUN npm install --legacy-peer-deps
 RUN npm run build
 COPY . .
 #stage-2
-FROM Node:alphine as a production
+FROM Node:22-alpine as a production
 RUN addgroup -S testfrontend && \
     adduser -S frontgroup -G testfrontend
 RUN rm /var/nginx/conf.d/default.conf  
