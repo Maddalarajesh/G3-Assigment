@@ -73,4 +73,3 @@ jobs:
 
           docker push \
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE }}:latest
-```
