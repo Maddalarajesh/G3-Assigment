@@ -4,6 +4,9 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+env:
+  BACKEND_IMAGE: g3-assignment-backend
+  FRONTEND_IMAGE: g3-assignment-frontend  
 
 jobs:
   test:
