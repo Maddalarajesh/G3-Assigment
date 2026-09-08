@@ -1,5 +1,6 @@
 FROM node:22-alpine As builder
 WORKDIR /app
+COPY . .
 RUN npm install --legacy-peer-deps
 RUN npm run build
 COPY . .
