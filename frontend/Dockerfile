@@ -19,7 +19,7 @@ RUN chown -R frontgroup:testfrontend \
              /run
 USER frontgroup
 EXPOSE 8080
-CMD ["nginx","-g","daemon off"]
+CMD ["nginx","-g","daemon off;"]
              
              
     
