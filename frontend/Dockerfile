@@ -8,7 +8,7 @@ RUN npm run build
 FROM nginx:1.27-alpine As production
 COPY . .
 RUN addgroup -S testfrontend && adduser -S frontgroup -G testfrontend
-RUN rm /var/nginx/conf.d/default.conf  
+RUN rm -f /var/nginx/conf.d/default.conf  
 COPY nginx.conf /var/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 RUN chown -R frontgroup:testfrontend \
