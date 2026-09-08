@@ -38,7 +38,7 @@ jobs:
             --platform linux/amd64 \
             -f frontend/Dockerfile \
             -t ${{  secrets.DOCKER_USERNAME  }}/${{ env.FRONTEND_IMAGE }}:${{ GITHUB.SHA }} \
-            -T ${{ secrets.DOCKER_USERNMAE }}/${{ env.FRONTEND_IMAGE }}:latest \
+            -t ${{ secrets.DOCKER_USERNMAE }}/${{ env.FRONTEND_IMAGE }}:latest \
             ./frontend
       
     
