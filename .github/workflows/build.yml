@@ -40,6 +40,16 @@ jobs:
             -t ${{  secrets.DOCKER_USERNAME  }}/${{ env.FRONTEND_IMAGE }}:${{ GITHUB.SHA }} \
             -t ${{ secrets.DOCKER_USERNAME }}/${{ env.FRONTEND_IMAGE }}:latest \
             ./frontend
-      
-    
+    - name: push frontend dockerimage to dockerhub
+      run: | 
+         docker push \
+            ${{  secrets.DOCKER_USERNAME  }}/${{ env.FRONTEND_IMAGE }}:${{ GITHUB.SHA }}
+         docker push \   
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.FRONTEND_IMAGE }}:latest 
+    - name: push backend dockerimage to dockerhub
+      run: | 
+         docker push \
+            ${{  secrets.DOCKER_USERNAME  }}/${{ env.BACKEND_IMAGE }}:${{ GITHUB.SHA }}
+         docker push \   
+            ${{ secrets.DOCKER_USERNAME }}/${{ env.BACKEND_IMAGE }}:latest
      
