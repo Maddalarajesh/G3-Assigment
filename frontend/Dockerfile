@@ -4,7 +4,7 @@ RUN npm install --legacy-peer-deps
 RUN npm run build
 COPY . .
 #stage-2
-FROM Node:22-alpine As production
+FROM node:22-alpine As production
 RUN addgroup -S testfrontend && adduser -S frontgroup -G testfrontend
 RUN rm /var/nginx/conf.d/default.conf  
 COPY nginx.conf /var/nginx/conf.d/default.conf
