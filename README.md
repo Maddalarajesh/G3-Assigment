@@ -7,3 +7,10 @@ the above two commands will checks the lint and tests of the code if any issues 
 Docker-compose files contains a services and volumes and api and frontend we have it will create multi containers at a time when we run the command docker compose up -d .
 The dockerfiles we have added in related folders means frontend dockerfile is in frontend folder and backend is in folder. we added a multi stage because the docker image will have a leightweight images and it will installs and have the necessary application dependencies only.
 Once everything looking good in the PR if they push the changes to main branch build.yaml will start executing it will build, tag and push those images into dockerhub.
+DEPLOYMENT: 
+    It pushes the docker images along with github sha value , the latest docker images it got deployed it to render automatically through the CI/CD Pipeline, we have connected the github and render using the RENDER_DEPLOY_HOOK.
+DATABASE:
+  we can use the following commands to restore the pgsql database.
+  we need to take a backup first- pg_dump -U postgres -d mydbname -F c -f backup.dump
+then restore - pg_restore -U postgres -d mydbname -F c backup.dump.
+Deployment URL - https://g3-assigment-frontend.vercel.app/
